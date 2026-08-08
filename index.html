@@ -23,6 +23,11 @@
         .hero .features { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
         .hero .feature { font-size: 0.9em; opacity: 0.8; }
 
+        .counter-bar { background: #e94560; color: white; padding: 20px 0; text-align: center; }
+        .counter-bar .container { display: flex; justify-content: center; gap: 60px; }
+        .counter-item { font-size: 1.2em; font-weight: 600; }
+        .counter-num { font-size: 1.5em; }
+
         section { padding: 60px 0; }
         section:nth-child(even) { background: #f8f9fa; }
         h2 { font-size: 2em; margin-bottom: 30px; color: #1a1a2e; }
@@ -51,12 +56,15 @@
         .step-content p { color: #555; font-size: 0.95em; }
 
         .faq { display: flex; flex-direction: column; gap: 5px; }
+        .faq-search { width: 100%; padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; margin-bottom: 15px; outline: none; transition: border 0.3s; }
+        .faq-search:focus { border-color: #e94560; }
         .faq-item { border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; transition: box-shadow 0.3s; }
         .faq-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .faq-q { padding: 18px 20px; background: white; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
         .faq-q:hover { background: #f8f9fa; }
         .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: #555; font-size: 0.95em; }
         .faq-item.active .faq-a { padding: 0 20px 18px; max-height: 500px; }
+        .faq-item.hidden { display: none; }
 
         .cta { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; text-align: center; }
         .cta h2 { color: white; }
@@ -68,11 +76,9 @@
         .btn-ghost { display: inline-block; background: transparent; color: white; padding: 14px 36px; border-radius: 50px; font-size: 1em; text-decoration: none; font-weight: 500; border: 2px solid rgba(255,255,255,0.3); margin-left: 15px; transition: border 0.3s, transform 0.2s; }
         .btn-ghost:hover { border-color: white; transform: translateY(-2px); }
 
-        /* Scroll reveal */
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* Sticky CTA mobile */
         .sticky-cta { display: none; }
 
         @media (max-width: 600px) {
@@ -83,6 +89,8 @@
             .btn-ghost { margin-left: 0; margin-top: 15px; display: block; }
             h2 { font-size: 1.5em; margin-bottom: 20px; }
             section { padding: 40px 0; }
+            .counter-bar .container { gap: 20px; }
+            .counter-item { font-size: 1em; }
 
             .sticky-cta {
                 display: block;
@@ -123,6 +131,13 @@
                 <span class="feature">📱 Любые товары</span>
                 <span class="feature">🆓 Бесплатно</span>
             </div>
+        </div>
+    </div>
+
+    <div class="counter-bar reveal">
+        <div class="container">
+            <div class="counter-item">📦 <span class="counter-num" id="auctionCount">0</span> аукционов проведено</div>
+            <div class="counter-item">👥 <span class="counter-num" id="userCount">0</span> пользователей</div>
         </div>
     </div>
 
@@ -240,6 +255,7 @@
     <section class="reveal">
         <div class="container">
             <h2>Часто задаваемые вопросы</h2>
+            <input type="text" class="faq-search" placeholder="🔍 Поиск по вопросам..." oninput="filterFAQ(this.value)">
             <div class="faq">
                 <div class="faq-item">
                     <div class="faq-q">Сколько стоит? <span>+</span></div>
@@ -286,6 +302,15 @@
     </footer>
 
     <script>
+        function filterFAQ(query) {
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const q = item.querySelector('.faq-q').textContent.toLowerCase();
+                const a = item.querySelector('.faq-a').textContent.toLowerCase();
+                const match = q.includes(query.toLowerCase()) || a.includes(query.toLowerCase());
+                item.classList.toggle('hidden', !match);
+            });
+        }
+
         // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -295,7 +320,6 @@
                 }
             });
         }, { threshold: 0.15 });
-
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // FAQ
