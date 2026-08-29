@@ -13,142 +13,243 @@
     <meta property="og:url" content="https://torgerbot.ru">
     <link rel="icon" type="image/svg+xml" href="https://torgerbot.ru/favicon.svg">
     <script>fetch('http://78.17.3.105:8440/ping',{mode:'no-cors'}).catch(function(){})</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
 
-        .hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 80px 0 60px; text-align: center; }
-        .hero h1 { font-size: 3em; margin-bottom: 10px; }
-        .hero .subtitle { font-size: 1.2em; opacity: 0.9; margin-bottom: 30px; }
-        .hero .btn { display: inline-block; background: #047857; color: white; padding: 16px 40px; border-radius: 50px; font-size: 1.1em; text-decoration: none; font-weight: 600; transition: transform 0.2s, background 0.3s, box-shadow 0.3s; }
-        .hero .btn:hover { background: #065f46; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(4,120,87,0.4); }
-        .hero .features { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
-        .hero .feature { font-size: 0.9em; opacity: 0.8; }
+        :root {
+            --bg: #070B14;
+            --ink: #E8EEF7;
+            --ink-soft: rgba(232, 238, 247, 0.62);
+            --ink-faint: rgba(232, 238, 247, 0.42);
+            --green: #34D399;
+            --teal: #2DD4BF;
+            --indigo: #818CF8;
+            --gold: #ECD06F;
+            --glass: rgba(255, 255, 255, 0.045);
+            --glass-strong: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.09);
+            --radius: 18px;
+        }
 
-        .counter-bar { background: #047857; color: white; padding: 20px 0; text-align: center; }
-        .counter-bar .container { display: flex; justify-content: center; gap: 60px; }
-        .counter-item { font-size: 1.2em; font-weight: 600; }
-        .counter-num { font-size: 1.5em; }
+        html { scroll-behavior: smooth; }
 
-        section { padding: 60px 0; }
-        section:nth-child(even) { background: #f8f9fa; }
-        h2 { font-size: 2em; margin-bottom: 30px; color: #1a1a2e; }
-        h3 { font-size: 1.3em; margin-bottom: 15px; color: #16213e; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card h3 { margin-bottom: 10px; }
-        .card p { color: #555; font-size: 0.95em; }
+        /* ── Aurora-орбы (фон) ── */
+        .orb { position: fixed; border-radius: 50%; filter: blur(90px); z-index: 0; pointer-events: none; }
+        .orb-1 { width: 560px; height: 560px; top: -180px; left: -140px; background: radial-gradient(circle, rgba(52, 211, 153, 0.16) 0%, transparent 70%); }
+        .orb-2 { width: 520px; height: 520px; top: 10%; right: -200px; background: radial-gradient(circle, rgba(129, 140, 248, 0.14) 0%, transparent 70%); }
+        .orb-3 { width: 480px; height: 480px; bottom: -160px; left: 30%; background: radial-gradient(circle, rgba(45, 212, 191, 0.12) 0%, transparent 70%); }
+        .noise { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; }
-        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #1a1a2e; color: white; font-weight: 600; }
-        th:first-child { border-radius: 8px 0 0 0; }
-        th:last-child { border-radius: 0 8px 0 0; }
-        td { font-size: 0.95em; }
-        .check { color: #22c55e; }
-        .cross { color: #ef4444; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-        .steps { display: flex; flex-direction: column; gap: 15px; }
-        .step { display: flex; gap: 15px; align-items: flex-start; }
-        .step-num { background: #047857; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
-        .step-content h3 { margin-bottom: 5px; }
-        .step-content p { color: #555; font-size: 0.95em; }
+        /* ── Шапка ── */
+        .nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+               background: rgba(7, 11, 20, 0.72); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+        .logo-mark { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #065f46, #16213e);
+                     display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 19px; color: #34D399;
+                     font-family: 'Manrope', sans-serif; box-shadow: 0 0 18px rgba(52, 211, 153, 0.35); }
+        .logo-text { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.02em; }
+        .logo-text em { font-style: normal; color: var(--green); }
+        .nav-cta { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #10B981, #0D9488);
+                   color: #05140F !important; font-weight: 700; font-size: 14px; padding: 10px 20px; border-radius: 999px;
+                   text-decoration: none; transition: transform .2s, box-shadow .3s; box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35); }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(16, 185, 129, 0.5); }
 
-        .faq { display: flex; flex-direction: column; gap: 5px; }
-        .faq-search { width: 100%; padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; margin-bottom: 15px; outline: none; transition: border 0.3s; }
-        .faq-search:focus { border-color: #047857; }
-        .faq-item { border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; transition: box-shadow 0.3s; }
-        .faq-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .faq-q { padding: 18px 20px; background: white; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .faq-q:hover { background: #f8f9fa; }
-        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: #555; font-size: 0.95em; }
-        .faq-item.active .faq-a { padding: 0 20px 18px; max-height: 500px; }
+        /* ── Hero ── */
+        .hero { padding: 96px 0 72px; text-align: center; position: relative; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 999px;
+                      background: var(--glass); border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+                      color: var(--ink-soft); margin-bottom: 28px; backdrop-filter: blur(8px); }
+        .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #34D399; box-shadow: 0 0 10px #34D399; }
+        .hero h1 { font-family: 'Manrope', sans-serif; font-size: clamp(2.6rem, 6vw, 4.6rem); font-weight: 800; line-height: 1.06;
+                   letter-spacing: -0.02em; margin-bottom: 22px; }
+        .hero h1 .grad { background: linear-gradient(120deg, #6EE7B7 0%, #2DD4BF 45%, #818CF8 100%);
+                          -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--ink-soft); max-width: 640px; margin: 0 auto 40px; font-weight: 400; }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10B981, #0D9488);
+               color: #05140F; padding: 16px 38px; border-radius: 999px; font-size: 1.05em; font-weight: 700;
+               text-decoration: none; transition: transform .2s, box-shadow .3s; box-shadow: 0 8px 28px rgba(16, 185, 129, 0.35); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(16, 185, 129, 0.5); }
+        .btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: var(--glass); border: 1px solid rgba(255,255,255,0.18);
+                     color: var(--ink); padding: 16px 32px; border-radius: 999px; font-size: 1em; font-weight: 600;
+                     text-decoration: none; backdrop-filter: blur(10px); transition: border .2s, transform .2s; }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.45); transform: translateY(-3px); }
+        .hero-features { display: flex; justify-content: center; gap: 12px; margin-top: 44px; flex-wrap: wrap; }
+        .h-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px;
+                  background: var(--glass); border: 1px solid var(--border); font-size: 14px; font-weight: 500; color: var(--ink-soft);
+                  backdrop-filter: blur(8px); }
+
+        /* ── Счётчики ── */
+        .counter-bar { margin: 8px auto 0; max-width: 1080px; padding: 0 24px; position: relative; z-index: 1; }
+        .counter-wrap { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+                        background: var(--glass-strong); border: 1px solid var(--border); border-radius: 20px;
+                        padding: 22px 28px; backdrop-filter: blur(14px); }
+        .counter-item { display: flex; align-items: center; gap: 10px; font-size: 0.98em; color: var(--ink-soft); padding: 6px 18px; }
+        .counter-item + .counter-item { border-left: 1px solid var(--border); }
+        .counter-num { font-family: 'Manrope', sans-serif; font-size: 1.5em; font-weight: 800; color: var(--ink);
+                       font-variant-numeric: tabular-nums; }
+        .counter-num i { font-style: normal; color: var(--green); }
+
+        /* ── Секции ── */
+        section { padding: 72px 0; position: relative; z-index: 1; }
+        .section-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+                           color: var(--green); margin-bottom: 10px; }
+        h2 { font-family: 'Manrope', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.01em; }
+        .section-sub { color: var(--ink-soft); max-width: 600px; margin-bottom: 44px; font-size: 1.02em; }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 24px;
+                backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+                transition: transform .3s, border-color .3s, box-shadow .3s; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(52, 211, 153, 0.35); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+        .card .ico { font-size: 30px; display: block; margin-bottom: 14px; }
+        .card h3 { font-family: 'Manrope', sans-serif; font-size: 1.14em; font-weight: 700; margin-bottom: 8px; }
+        .card p { color: var(--ink-soft); font-size: 0.94em; }
+
+        /* ── Таблица ── */
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius);
+                      background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(14px); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95em; min-width: 560px; }
+        th, td { padding: 15px 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        th { font-family: 'Manrope', sans-serif; font-weight: 700; color: var(--ink); background: rgba(255,255,255,0.03); }
+        th:first-child { color: var(--ink-soft); font-weight: 600; }
+        td { color: var(--ink-soft); }
+        tr:last-child td { border-bottom: none; }
+        td:first-child { color: var(--ink); font-weight: 600; }
+        .check { color: var(--green); font-weight: 700; }
+        .cross { color: rgba(248, 113, 113, 0.85); }
+
+        /* ── Шаги ── */
+        .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .step { display: flex; gap: 16px; align-items: flex-start; background: var(--glass); border: 1px solid var(--border);
+                border-radius: var(--radius); padding: 22px; backdrop-filter: blur(14px); }
+        .step-num { background: linear-gradient(135deg, #10B981, #0D9488); color: #05140F; width: 38px; height: 38px; border-radius: 12px;
+                    display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Manrope', sans-serif;
+                    font-size: 17px; flex-shrink: 0; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); }
+        .step-content h3 { font-family: 'Manrope', sans-serif; font-size: 1.05em; font-weight: 700; margin-bottom: 4px; }
+        .step-content p { color: var(--ink-soft); font-size: 0.92em; }
+
+        /* ── FAQ ── */
+        .faq-search { width: 100%; padding: 15px 20px; background: var(--glass); border: 1px solid var(--border);
+                      border-radius: 14px; font-size: 1em; color: var(--ink); outline: none; margin-bottom: 18px;
+                      backdrop-filter: blur(10px); transition: border .2s; font-family: inherit; }
+        .faq-search::placeholder { color: var(--ink-faint); }
+        .faq-search:focus { border-color: rgba(52, 211, 153, 0.55); }
+        .faq { display: flex; flex-direction: column; gap: 10px; }
+        .faq-item { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+                    backdrop-filter: blur(12px); transition: border-color .25s; }
+        .faq-item:hover { border-color: rgba(255,255,255,0.16); }
+        .faq-q { padding: 18px 22px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between;
+                 align-items: center; gap: 12px; font-size: 1em; }
+        .faq-q .plus { color: var(--green); font-size: 1.3em; font-weight: 500; line-height: 1; transition: transform .25s; }
+        .faq-item.active .faq-q .plus { transform: rotate(45deg); }
+        .faq-a { padding: 0 22px; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease;
+                 color: var(--ink-soft); font-size: 0.95em; }
+        .faq-item.active .faq-a { padding: 0 22px 18px; max-height: 500px; }
         .faq-item.hidden { display: none; }
 
-        .cta { background: #f8f9fa; color: #1a1a2e; text-align: center; padding: 70px 0; border-top: 1px solid #eee; }
-        .cta h2 { color: #1a1a2e; font-weight: 800; margin-bottom: 15px; }
-        .cta p { color: #555; margin-bottom: 25px; font-weight: 500; }
-        .cta .btn { display: inline-block; background: #047857; color: white; padding: 16px 40px; border-radius: 50px; font-size: 1.1em; text-decoration: none; font-weight: 600; margin-top: 20px; transition: transform 0.2s, box-shadow 0.3s; }
-        .cta .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(4,120,87,0.4); }
-        .cta-btn { padding: 18px 50px !important; font-size: 1.2em !important; box-shadow: 0 4px 15px rgba(4,120,87,0.5); }
+        /* ── CTA ── */
+        .cta { text-align: center; padding: 64px 0 88px; }
+        .cta-card { background: linear-gradient(160deg, rgba(16, 185, 129, 0.10), rgba(129, 140, 248, 0.08) 60%, rgba(7, 11, 20, 0));
+                    border: 1px solid rgba(52, 211, 153, 0.22); border-radius: 28px; padding: 64px 32px;
+                    backdrop-filter: blur(16px); }
+        .cta h2 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 10px; }
+        .cta p { color: var(--ink-soft); margin-bottom: 30px; font-size: 1.05em; }
 
-        footer { text-align: center; padding: 30px; color: #888; font-size: 0.9em; }
+        footer { text-align: center; padding: 30px 24px 44px; color: var(--ink-faint); font-size: 0.88em; position: relative; z-index: 1; }
+        footer a { color: var(--ink-soft); }
 
-        .btn-ghost { display: inline-block; background: transparent; color: white; padding: 14px 36px; border-radius: 50px; font-size: 1em; text-decoration: none; font-weight: 500; border: 2px solid rgba(255,255,255,0.3); margin-left: 15px; transition: border 0.3s, transform 0.2s; }
-        .btn-ghost:hover { border-color: white; transform: translateY(-2px); }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        /* ── Reveal ── */
+        .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ── Мобильный sticky-CTA ── */
         .sticky-cta { display: none; }
 
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+            .steps { grid-template-columns: 1fr; }
+        }
         @media (max-width: 600px) {
-            .hero h1 { font-size: 2em; }
-            .hero { padding: 50px 0 40px; }
-            .grid { grid-template-columns: 1fr; }
-            .hero .features { flex-direction: column; gap: 10px; }
-            .btn-ghost { margin-left: 0; margin-top: 15px; display: block; }
-            h2 { font-size: 1.5em; margin-bottom: 20px; }
-            section { padding: 40px 0; }
-            .counter-bar .container { gap: 20px; }
-            .counter-item { font-size: 1em; }
-
-            .sticky-cta {
-                display: block;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: rgba(22,33,62,0.97);
-                backdrop-filter: blur(10px);
-                padding: 12px 20px;
-                text-align: center;
-                z-index: 1000;
-                border-top: 1px solid rgba(255,255,255,0.1);
-            }
-            .sticky-cta a {
-                display: block;
-                background: #047857;
-                color: white;
-                padding: 14px 20px;
-                border-radius: 50px;
-                font-size: 1em;
-                font-weight: 600;
-                text-decoration: none;
-            }
-            body { padding-bottom: 80px; }
+            .hero { padding: 64px 0 48px; }
+            .grid, .grid-2 { grid-template-columns: 1fr; }
+            .counter-wrap { flex-direction: column; align-items: center; padding: 18px; gap: 8px; }
+            .counter-item + .counter-item { border-left: none; border-top: 1px solid var(--border); padding-top: 12px; }
+            .counter-item { width: 100%; justify-content: center; }
+            section { padding: 52px 0; }
+            .nav-cta { padding: 9px 16px; font-size: 13px; }
+            .sticky-cta { display: block; position: fixed; bottom: 0; left: 0; right: 0;
+                          background: rgba(10, 15, 26, 0.92); backdrop-filter: blur(14px); padding: 12px 20px;
+                          text-align: center; z-index: 1000; border-top: 1px solid rgba(255,255,255,0.08); }
+            .sticky-cta a { display: block; background: linear-gradient(135deg, #10B981, #0D9488); color: #05140F;
+                            padding: 14px 20px; border-radius: 999px; font-size: 1em; font-weight: 700; text-decoration: none; }
+            body { padding-bottom: 84px; }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="noise"></div>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-mark">T</span>
+                <span class="logo-text">Torger<em>Bot</em></span>
+            </a>
+            <a href="https://t.me/torger_bot" class="nav-cta">🚀 Открыть бота</a>
+        </div>
+    </nav>
+
+    <header class="hero">
         <div class="container">
-            <h1>🏛 Torger</h1>
-            <p class="subtitle">Бесплатный Telegram-бот для аукционов. Продавайте дороже — автоматически.</p>
-            <a href="https://t.me/torger_bot" class="btn">🚀 Открыть бота в Telegram</a>
-            <div class="features">
-                <span class="feature">🔒 Анонимные ставки</span>
-                <span class="feature">⚡️ Круговой опрос</span>
-                <span class="feature">📱 Любые товары</span>
-                <span class="feature">🆓 Бесплатно</span>
+            <div class="hero-badge"><span class="dot"></span> Бесплатно · В Telegram · Без ограничений</div>
+            <h1>Честные аукционы<br><span class="grad">прямо в Telegram</span></h1>
+            <p class="subtitle">Torger — бот, который проводит аукцион за вас: круговой опрос, анонимные ставки, автоматическое повышение цены. Продавайте дороже.</p>
+            <div class="hero-actions">
+                <a href="https://t.me/torger_bot" class="btn">🚀 Попробовать бесплатно</a>
+                <a href="#how" class="btn-ghost">Как это работает</a>
+            </div>
+            <div class="hero-features">
+                <span class="h-chip">🔒 Анонимные ставки</span>
+                <span class="h-chip">⚡️ Круговой опрос</span>
+                <span class="h-chip">📱 Любые товары</span>
+                <span class="h-chip">🆓 Бесплатно</span>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="counter-bar reveal">
-        <div class="container">
-            <div class="counter-item">📦 <span class="counter-num" id="auctionCount">2</span> аукционов проведено</div>
-            <div class="counter-item">👥 <span class="counter-num" id="userCount">2</span> пользователей</div>
+    <div class="counter-bar">
+        <div class="counter-wrap">
+            <div class="counter-item">📦 <span class="counter-num"><i id="auctionCount">2</i> аукционов</span> проведено</div>
+            <div class="counter-item">👥 <span class="counter-num"><i id="userCount">2</i> пользователя</span></div>
         </div>
     </div>
 
-    <section class="reveal">
+    <section id="how" class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Механика</span>
             <h2>Как это работает</h2>
+            <p class="section-sub">Четыре шага — и лот продан по справедливой цене. Всё делает бот, вы только контролируете.</p>
             <div class="steps">
                 <div class="step">
                     <div class="step-num">1</div>
@@ -184,62 +285,38 @@
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Возможности</span>
             <h2>Ключевые возможности</h2>
+            <p class="section-sub">Всё, что нужно для честных торгов, из коробки.</p>
             <div class="grid">
-                <div class="card">
-                    <h3>🔄 Круговой опрос</h3>
-                    <p>Участники отвечают по очереди — каждый видит только свой ход. Никакой хаотичной переписки.</p>
-                </div>
-                <div class="card">
-                    <h3>🔒 Полная анонимность</h3>
-                    <p>Участники видят только порядковые номера соперников. Имена и контакты участников видит только куратор.</p>
-                </div>
-                <div class="card">
-                    <h3>📞 Участники по телефону</h3>
-                    <p>Добавляйте покупателей без Telegram. Куратор звонит и вводит ставку за них.</p>
-                </div>
-                <div class="card">
-                    <h3>⏱ 2 минуты на ход</h3>
-                    <p>Таймаут ускоряет торги. Участники не тянут время — темп задаёт бот.</p>
-                </div>
-                <div class="card">
-                    <h3>📢 Публичный канал</h3>
-                    <p>Ход торгов транслируется в канал. Зрители следят за борьбой в реальном времени.</p>
-                </div>
-                <div class="card">
-                    <h3>⚡️ Право последнего слова</h3>
-                    <p>Участник, которого перебили, получает финальный шанс повысить ставку.</p>
-                </div>
+                <div class="card"><span class="ico">🔄</span><h3>Круговой опрос</h3><p>Участники отвечают по очереди — каждый видит только свой ход. Никакой хаотичной переписки.</p></div>
+                <div class="card"><span class="ico">🔒</span><h3>Полная анонимность</h3><p>Участники видят только порядковые номера соперников. Имена и контакты видит только куратор.</p></div>
+                <div class="card"><span class="ico">📞</span><h3>Участники по телефону</h3><p>Добавляйте покупателей без Telegram. Куратор звонит и вводит ставку за них.</p></div>
+                <div class="card"><span class="ico">⏱</span><h3>2 минуты на ход</h3><p>Таймаут ускоряет торги. Участники не тянут время — темп задаёт бот.</p></div>
+                <div class="card"><span class="ico">📢</span><h3>Публичный канал</h3><p>Ход торгов транслируется в канал. Зрители следят за борьбой в реальном времени.</p></div>
+                <div class="card"><span class="ico">⚡️</span><h3>Право последнего слова</h3><p>Участник, которого перебили, получает финальный шанс повысить ставку.</p></div>
             </div>
         </div>
     </section>
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Сравнение</span>
             <h2>Чем Torger отличается</h2>
+            <p class="section-sub">Не чат с хаосом и не площадка с фиксированной ценой — а настоящий аукционный процесс.</p>
             <div class="table-wrap">
             <table>
-                <tr>
-                    <th>Критерий</th><th>Torger</th><th>Аукционы в чатах</th><th>Площадки</th>
-                </tr>
-                <tr>
-                    <td>Формат</td><td>Круговой опрос</td><td>Хаотичный сбор ставок</td><td>Фиксированная цена</td>
-                </tr>
-                <tr>
-                    <td>Анонимность</td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="check">✅</span></td>
-                </tr>
-                <tr>
-                    <td>Автоматизация</td><td>Полная</td><td>Ручная</td><td>Частичная</td>
-                </tr>
-                <tr>
-                    <td>Телефонные участники</td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td>
-                </tr>
-                <tr>
-                    <td>Бесплатно</td><td><span class="check">✅</span></td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td>
-                </tr>
-                <tr>
-                    <td>Telegram</td><td>Нативный</td><td>В чате</td><td>Внешний сайт</td>
-                </tr>
+                <thead>
+                <tr><th>Критерий</th><th>Torger</th><th>Аукционы в чатах</th><th>Площадки</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>Формат</td><td>Круговой опрос</td><td>Хаотичный сбор ставок</td><td>Фиксированная цена</td></tr>
+                <tr><td>Анонимность</td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="check">✅</span></td></tr>
+                <tr><td>Автоматизация</td><td>Полная</td><td>Ручная</td><td>Частичная</td></tr>
+                <tr><td>Телефонные участники</td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td></tr>
+                <tr><td>Бесплатно</td><td><span class="check">✅</span></td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td></tr>
+                <tr><td>Telegram</td><td>Нативный</td><td>В чате</td><td>Внешний сайт</td></tr>
+                </tbody>
             </table>
             </div>
         </div>
@@ -247,7 +324,9 @@
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Аудитория</span>
             <h2>Кому подходит</h2>
+            <p class="section-sub">Если у вас есть лот и покупатели — Torger поднимет цену выше старта.</p>
             <div class="grid">
                 <div class="card"><h3>🏠 Продавцам недвижимости</h3><p>Квартиры, дома, коммерция, паркинги — аукцион поднимает цену выше старта.</p></div>
                 <div class="card"><h3>🚗 Автодилерам</h3><p>Автомобили, мотоциклы — участники торгуются за ограниченный товар.</p></div>
@@ -259,90 +338,71 @@
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Продавцам</span>
             <h2>Выгоды для продавцов</h2>
             <div class="grid">
-                <div class="card">
-                    <h3>💰 Продажа дороже</h3>
-                    <p>Аукцион всегда поднимает цену выше старта. Конкуренция между участниками заставляет платить больше.</p>
-                </div>
-                <div class="card">
-                    <h3>⚡️ Быстрая продажа</h3>
-                    <p>Весь аукцион занимает 10-20 минут. Не нужно ждать неделями — продали сегодня, получили деньги сегодня.</p>
-                </div>
-                <div class="card">
-                    <h3>🔒 Анонимность</h3>
-                    <p>Покупатели не видят ваши контакты. Вы решаете, кому и когда раскрывать информацию.</p>
-                </div>
-                <div class="card">
-                    <h3>📞 Больше покупателей</h3>
-                    <p>Телефонные участники расширяют аудиторию. Добавляйте покупателей без Telegram — куратор всё организует.</p>
-                </div>
+                <div class="card"><h3>💰 Продажа дороже</h3><p>Аукцион всегда поднимает цену выше старта. Конкуренция заставляет платить больше.</p></div>
+                <div class="card"><h3>⚡️ Быстрая продажа</h3><p>Весь аукцион занимает 10–20 минут. Продали сегодня — получили деньги сегодня.</p></div>
+                <div class="card"><h3>🔒 Анонимность</h3><p>Покупатели не видят ваши контакты. Вы решаете, кому и когда раскрывать информацию.</p></div>
+                <div class="card"><h3>📞 Больше покупателей</h3><p>Телефонные участники расширяют аудиторию. Добавляйте покупателей без Telegram.</p></div>
             </div>
         </div>
     </section>
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">Покупателям</span>
             <h2>Выгоды для покупателей</h2>
             <div class="grid">
-                <div class="card">
-                    <h3>🤝 Честные торги</h3>
-                    <p>Круговой опрос исключает сговор. Каждый участник получает равный шанс — никаких преимуществ у первых.</p>
-                </div>
-                <div class="card">
-                    <h3>🎯 Прозрачность</h3>
-                    <p>Вы видите только номер участника и его ставку. Никакой предвзятости — только цифры решают.</p>
-                </div>
-                <div class="card">
-                    <h3>📱 Участие без Telegram</h3>
-                    <p>Нет Telegram? Не проблема. Куратор свяжется по телефону и проведёт вас через весь процесс.</p>
-                </div>
-                <div class="card">
-                    <h3>🔄 Право последнего слова</h3>
-                    <p>Если вас перебили — вы получаете финальный шанс ответить. Никто не остаётся внакладе.</p>
-                </div>
+                <div class="card"><h3>🤝 Честные торги</h3><p>Круговой опрос исключает сговор. Каждый участник получает равный шанс.</p></div>
+                <div class="card"><h3>🎯 Прозрачность</h3><p>Вы видите только номер участника и его ставку. Никакой предвзятости — только цифры решают.</p></div>
+                <div class="card"><h3>📱 Участие без Telegram</h3><p>Нет Telegram? Куратор свяжется по телефону и проведёт вас через весь процесс.</p></div>
+                <div class="card"><h3>🔄 Право последнего слова</h3><p>Если вас перебили — вы получаете финальный шанс ответить. Никто не остаётся внакладе.</p></div>
             </div>
         </div>
     </section>
 
     <section class="reveal">
         <div class="container">
+            <span class="section-eyebrow">FAQ</span>
             <h2>Часто задаваемые вопросы</h2>
             <input type="text" class="faq-search" placeholder="🔍 Поиск по вопросам..." oninput="filterFAQ(this.value)">
             <div class="faq">
                 <div class="faq-item">
-                    <div class="faq-q">Сколько стоит? <span>+</span></div>
+                    <div class="faq-q">Сколько стоит? <span class="plus">+</span></div>
                     <div class="faq-a">Полностью бесплатно. В будущем возможно введение комиссии на крупные сделки, но базовый функционал останется бесплатным.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Какие товары можно продавать? <span>+</span></div>
+                    <div class="faq-q">Какие товары можно продавать? <span class="plus">+</span></div>
                     <div class="faq-a">Любые: недвижимость, автомобили, услуги, консультации, коллекционные предметы, часы, искусство. Torger не ограничивает категории.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Как пригласить участников? <span>+</span></div>
+                    <div class="faq-q">Как пригласить участников? <span class="plus">+</span></div>
                     <div class="faq-a">Бот создаёт ссылку-приглашение. Отправьте её покупателям через Telegram, WhatsApp, email или любой другой канал. Для участников без Telegram можно добавить телефон.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Что если победитель откажется? <span>+</span></div>
+                    <div class="faq-q">Что если победитель откажется? <span class="plus">+</span></div>
                     <div class="faq-a">Куратор связывается со следующим участником по очереди ставок. Все ставки сохраняются в истории.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Сколько длится аукцион? <span>+</span></div>
-                    <div class="faq-a">Круг из 5-7 участников занимает 10-20 минут. Количество кругов неограничено, до победного.</div>
+                    <div class="faq-q">Сколько длится аукцион? <span class="plus">+</span></div>
+                    <div class="faq-a">Круг из 5–7 участников занимает 10–20 минут. Количество кругов неограничено, до победного.</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-q">Нужен ли Telegram покупателям? <span>+</span></div>
+                    <div class="faq-q">Нужен ли Telegram покупателям? <span class="plus">+</span></div>
                     <div class="faq-a">Продавцу нужен Telegram. Покупатели могут участвовать через куратора по телефону — им Telegram не нужен.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
+    <section class="cta reveal">
         <div class="container">
-            <h2>Готовы попробовать?</h2>
-            <p>Первый аукцион — бесплатно. Дальше — тоже бесплатно.</p>
-            <a href="https://t.me/torger_bot" class="btn cta-btn">🚀 Открыть бота</a>
+            <div class="cta-card">
+                <h2>Готовы попробовать?</h2>
+                <p>Первый аукцион — бесплатно. Дальше — тоже бесплатно.</p>
+                <a href="https://t.me/torger_bot" class="btn">🚀 Открыть бота</a>
+            </div>
         </div>
     </section>
 
@@ -351,7 +411,7 @@
     </div>
 
     <footer>
-        <p>Torger — бесплатный Telegram-бот для аукционов | <a href="https://torgerbot.ru" style="color: #888;">torgerbot.ru</a></p>
+        <p>Torger — бесплатный Telegram-бот для аукционов · <a href="https://torgerbot.ru">torgerbot.ru</a></p>
     </footer>
 
     <script>
