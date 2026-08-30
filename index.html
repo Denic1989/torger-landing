@@ -100,11 +100,11 @@
         .counter-wrap { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
                         background: var(--glass-strong); border: 1px solid var(--border); border-radius: 20px;
                         padding: 22px 28px; backdrop-filter: blur(14px); }
-        .counter-item { display: flex; align-items: center; gap: 10px; font-size: 0.98em; color: var(--ink-soft); padding: 6px 18px; }
+        .counter-item { display: flex; align-items: center; gap: 10px; font-size: 0.98em; color: var(--ink-soft); padding: 6px 18px; white-space: nowrap; }
         .counter-item + .counter-item { border-left: 1px solid var(--border); }
+        .counter-ico { font-size: 1.25em; line-height: 1; }
         .counter-num { font-family: 'Manrope', sans-serif; font-size: 1.5em; font-weight: 800; color: var(--ink);
                        font-variant-numeric: tabular-nums; }
-        .counter-num i { font-style: normal; color: var(--green); }
 
         /* ── Секции ── */
         section { padding: 72px 0; position: relative; z-index: 1; }
@@ -240,8 +240,8 @@
 
     <div class="counter-bar">
         <div class="counter-wrap">
-            <div class="counter-item">📦 <span class="counter-num"><i id="auctionCount">2</i> аукционов</span> проведено</div>
-            <div class="counter-item">👥 <span class="counter-num"><i id="userCount">2</i> пользователя</span></div>
+            <div class="counter-item"><span class="counter-ico">📦</span><span class="counter-num" id="auctionCount">2</span>&nbsp;аукционов</div>
+            <div class="counter-item"><span class="counter-ico">👥</span><span class="counter-num" id="userCount">2</span>&nbsp;пользователя</div>
         </div>
     </div>
 
@@ -332,32 +332,6 @@
                 <div class="card"><h3>🚗 Автодилерам</h3><p>Автомобили, мотоциклы — участники торгуются за ограниченный товар.</p></div>
                 <div class="card"><h3>⌚️ Коллекционерам</h3><p>Часы, антиквариат, искусство — ценители готовы платить за эксклюзив.</p></div>
                 <div class="card"><h3>📝 Блогерам и экспертам</h3><p>Час консультации, личная встреча, эксклюзивный контент — всё идёт с молотка.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="reveal">
-        <div class="container">
-            <span class="section-eyebrow">Продавцам</span>
-            <h2>Выгоды для продавцов</h2>
-            <div class="grid">
-                <div class="card"><h3>💰 Продажа дороже</h3><p>Аукцион всегда поднимает цену выше старта. Конкуренция заставляет платить больше.</p></div>
-                <div class="card"><h3>⚡️ Быстрая продажа</h3><p>Весь аукцион занимает 10–20 минут. Продали сегодня — получили деньги сегодня.</p></div>
-                <div class="card"><h3>🔒 Анонимность</h3><p>Покупатели не видят ваши контакты. Вы решаете, кому и когда раскрывать информацию.</p></div>
-                <div class="card"><h3>📞 Больше покупателей</h3><p>Телефонные участники расширяют аудиторию. Добавляйте покупателей без Telegram.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="reveal">
-        <div class="container">
-            <span class="section-eyebrow">Покупателям</span>
-            <h2>Выгоды для покупателей</h2>
-            <div class="grid">
-                <div class="card"><h3>🤝 Честные торги</h3><p>Круговой опрос исключает сговор. Каждый участник получает равный шанс.</p></div>
-                <div class="card"><h3>🎯 Прозрачность</h3><p>Вы видите только номер участника и его ставку. Никакой предвзятости — только цифры решают.</p></div>
-                <div class="card"><h3>📱 Участие без Telegram</h3><p>Нет Telegram? Куратор свяжется по телефону и проведёт вас через весь процесс.</p></div>
-                <div class="card"><h3>🔄 Право последнего слова</h3><p>Если вас перебили — вы получаете финальный шанс ответить. Никто не остаётся внакладе.</p></div>
             </div>
         </div>
     </section>
